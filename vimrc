@@ -7,6 +7,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
 Plugin 'vim-scripts/taglist.vim'
 Plugin 'vim-scripts/pydoc.vim'
 
@@ -168,6 +169,11 @@ map <C-L> <C-W>l<C-W>_
 " Comment
 vmap <Leader>c gc
 
+" Automated search for classes and methods
+" Python
+command WNpyfc :execute "noautocmd vimgrep /class " . expand("<cword>") . "/j **/*." . expand("%:e") | cw
+command WNpyfm :execute "noautocmd vimgrep /def " . expand("<cword>") . "/j **/*." . expand("%:e") | cw
+
 " Find
 map <Leader>f /
 map <Leader>fn //<CR>
@@ -202,3 +208,27 @@ let g:multi_cursor_next_key='<C-]>'
 let g:multi_cursor_prev_key='<C-[>'
 let g:multi_cursor_skip_key='<C-\>'
 let g:multi_cursor_quit_key='<Esc>'
+
+" Syntastic
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+if has('unix')
+    let g:syntastic_error_symbol='★'
+    " fancy symbols for syntax checker
+    let g:syntastic_error_symbol='✗'
+    let g:syntastic_style_error_symbol='>'
+    let g:syntastic_warning_symbol='⚠'
+    let g:syntastic_style_warning_symbol='>'
+else
+    let g:syntastic_error_symbol='!'
+    let g:syntastic_style_error_symbol='>'
+    let g:syntastic_warning_symbol='.'
+    let g:syntastic_style_warning_symbol='>'
+endif
+
+" Syntastic JavaScript
+let g:syntastic_javascript_checkers = ['gjslint']
+let g:syntastic_gjslint_conf=" --nojsdoc"
