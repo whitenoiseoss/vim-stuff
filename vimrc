@@ -10,6 +10,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'vim-scripts/taglist.vim'
 Plugin 'vim-scripts/pydoc.vim'
 
+Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-surround'
 Plugin 'kien/ctrlp.vim'
 Plugin 'SirVer/ultisnips'
@@ -187,9 +188,17 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 hi Directory guifg=#FF0000 ctermfg=148
 
 " Taglist
-let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
+let Tlist_Ctags_Cmd='/usr/bin/ctags'
 let Tlist_GainFocus_On_ToggleOpen = 1
 let Tlist_Close_On_Select = 1
 let Tlist_Use_Right_Window = 1
 let Tlist_File_Fold_Auto_Close = 1
-map <F7> :TlistToggle<CR>
+let Tlist_WinWidth = 50
+map <F2> :TlistToggle<CR>
+
+" Multiple Cursors
+let g:multi_cursor_use_default_mapping=0
+let g:multi_cursor_next_key='<C-]>'
+let g:multi_cursor_prev_key='<C-[>'
+let g:multi_cursor_skip_key='<C-\>'
+let g:multi_cursor_quit_key='<Esc>'
