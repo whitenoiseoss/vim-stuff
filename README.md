@@ -42,6 +42,9 @@ sudo pip install pyflake8
 | ```,c``` | Comment |
 | ```,f``` | Find |
 | ```,fn``` | Find next |
+| ```,q``` | qall |
+| ```F2``` | Cls/Func List |
+| ```F3``` | NERDTree |
 
 ### Custom Commands
 #### Python
