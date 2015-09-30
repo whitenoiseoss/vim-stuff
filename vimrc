@@ -24,7 +24,7 @@ Plugin 'flazz/vim-colorschemes'
 call vundle#end()
 
 " Color Scheme
-colorscheme Monokai
+colorscheme railscasts
 
 if has('syntax') && !exists('g:syntax_on')
 	syntax enable
@@ -180,7 +180,7 @@ map <Leader>fn //<CR>
 
 " NERDTree
 let NERDTreeChDirMode=2
-let NERDTreeIgnore=['\.vim$', '\~$', '\.pyc$', '\.swp$']
+let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
 let NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$',  '\~$']
 " let NERDTreeShowBookmarks=1
 " let NERDTreeDirArrowExpandable = "+"
@@ -191,7 +191,7 @@ autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " NERDTree Coloring
-hi Directory guifg=#FF0000 ctermfg=148
+hi Directory guifg=#FF0000 ctermfg=172
 
 " Taglist
 let Tlist_Ctags_Cmd='/usr/bin/ctags'
