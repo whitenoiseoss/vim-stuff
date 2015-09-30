@@ -16,6 +16,10 @@ Alias on ZSH for starting tmux with 256bit color:
 ```
 alias tmux='tmux -2'
 ```
+If it still looks weird in TMUX, in your session do:
+```
+export TERM=screen-256color
+```
 
 ### PIP Installations
 This will install Python PEP8 and syntax checker, compatible with Syntastic:
