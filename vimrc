@@ -8,19 +8,26 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
-Plugin 'vim-scripts/taglist.vim'
+"Plugin 'vim-scripts/taglist.vim'
+Plugin 'majutsushi/tagbar'
 Plugin 'vim-scripts/pydoc.vim'
 
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-surround'
 Plugin 'kien/ctrlp.vim'
 Plugin 'SirVer/ultisnips'
-Plugin 'ervandew/supertab'
+"Plugin 'ervandew/supertab'
+Plugin 'Shougo/neocomplete'
 Plugin 'tomtom/tcomment_vim'
-Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'airblade/vim-gitgutter'
 
 Plugin 'flazz/vim-colorschemes'
+
+Plugin 'saltstack/salt-vim'
+Plugin 'fatih/vim-go'
+Plugin 'davidhalter/jedi-vim'
 call vundle#end()
 
 " Color Scheme
@@ -104,6 +111,9 @@ set completeopt=menuone,longest,preview
 " CtrlP
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.pyc/*
 
+" Vim-Go
+let g:go_fmt_command = "goimports"
+
 " Ultisnip
 let g:UltiSnipsExpandTrigger="<Tab>"
 let g:UltiSnipsJumpForwardTrigger="<Tab>"
@@ -112,9 +122,17 @@ let g:did_UltiSnips_vim_after = 1
 let g:UltiSnipsSnippetDirectorties = ["UltiSnips"]
 
 " SuperTab
-au FileType python set omnifunc=pythoncomplete#Complete
-let g:SuperTabDefaultCompletionType = "context"
-set completeopt=menuone,longest,preview
+" au FileType python set omnifunc=pythoncomplete#Complete
+" let g:SuperTabDefaultCompletionType = "context"
+" set completeopt=menuone,longest,preview
+
+" neocomplete
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_auto_select = 0
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 
 " vim-airline
 let g:airline#extensions#tabline#enabled = 1
@@ -194,13 +212,16 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 hi Directory guifg=#FF0000 ctermfg=172
 
 " Taglist
-let Tlist_Ctags_Cmd='/usr/bin/ctags'
-let Tlist_GainFocus_On_ToggleOpen = 1
-let Tlist_Close_On_Select = 1
-let Tlist_Use_Right_Window = 1
-let Tlist_File_Fold_Auto_Close = 1
-let Tlist_WinWidth = 50
-map <F2> :TlistToggle<CR>
+" let Tlist_Ctags_Cmd='/usr/bin/ctags'
+" let Tlist_GainFocus_On_ToggleOpen = 1
+" let Tlist_Close_On_Select = 1
+" let Tlist_Use_Right_Window = 1
+" let Tlist_File_Fold_Auto_Close = 1
+" let Tlist_WinWidth = 50
+" map <F2> :TlistToggle<CR>
+
+" Tagbar
+nmap <F2> :TagbarToggle<CR>
 
 " Multiple Cursors
 let g:multi_cursor_use_default_mapping=0
