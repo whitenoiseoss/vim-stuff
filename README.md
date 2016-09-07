@@ -2,6 +2,13 @@
 This is my VIM stuff
 
 ## Installation Instructions (Ubuntu/Mint)
+### Install Vundle
+[Vundle repository](https://github.com/VundleVim/Vundle.vim) has instructions for installing Vundle.
+
+As of this writing, the command is:
+```
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+```
 ### Install CTAGS
 ```
 sudo apt-get install exuberant-ctags
@@ -57,15 +64,6 @@ sudo pip install pyflake8
 * ```:WNpyfm```
   * Find a Python method definition across CWD
   
-#### JavaScript
-* Coming Soon!
-
-#### Puppet
-* Coming Soon!
-
-### Snippets
-Coming Soon!
-
 ### TMUX Cheat Sheet
 [TMUX Cheat Sheet](http://tmuxcheatsheet.com/)
 
@@ -75,3 +73,4 @@ Here's some packages you might find useful:
 * rodjek/vim-puppet
 * chase/vim-ansible-yaml
 * t9md/vim-chef
+* saltstack/salt-vim
