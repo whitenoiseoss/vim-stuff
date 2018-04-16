@@ -1,4 +1,14 @@
 set nocompatible
+
+" python hacks
+if has('python') " if dynamic py|py3, this line already activates python2.
+  let s:python_version = 2
+elseif has('python3')
+  let s:python_version = 3
+else
+  let s:python_version = 0
+endif
+
 filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -6,38 +16,49 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
+" Base Editor plugins
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
-"Plugin 'vim-scripts/taglist.vim'
 Plugin 'majutsushi/tagbar'
-Plugin 'vim-scripts/pydoc.vim'
-
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-surround'
 Plugin 'kien/ctrlp.vim'
 Plugin 'SirVer/ultisnips'
-"Plugin 'ervandew/supertab'
 Plugin 'Shougo/neocomplete'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'airblade/vim-gitgutter'
 
+" Color
 Plugin 'flazz/vim-colorschemes'
 
-Plugin 'saltstack/salt-vim'
-Plugin 'fatih/vim-go'
+" Python
 Plugin 'davidhalter/jedi-vim'
+Plugin 'vim-scripts/pydoc.vim'
+Plugin 'nvie/vim-flake8'
+
+" Go
+Plugin 'fatih/vim-go'
+
+" JSON
+Plugin 'elzr/vim-json'
+
+" AWS
+Plugin 'm-kat/aws-vim'
 call vundle#end()
 
 " Color Scheme
-colorscheme railscasts
+colorscheme gruvbox
+set background=dark
 
 if has('syntax') && !exists('g:syntax_on')
 	syntax enable
 endif
 
 filetype plugin indent on
+
+let mapleader = ','
 
 set autoindent
 set backspace=indent,eol,start
@@ -121,18 +142,48 @@ let g:UltiSnipsJumpBackwardTrigger=""
 let g:did_UltiSnips_vim_after = 1
 let g:UltiSnipsSnippetDirectorties = ["UltiSnips"]
 
-" SuperTab
-" au FileType python set omnifunc=pythoncomplete#Complete
-" let g:SuperTabDefaultCompletionType = "context"
-" set completeopt=menuone,longest,preview
-
 " neocomplete
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_auto_select = 0
+let g:neocomplete#sources#syntax#min_keyword_length = 3
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd BufWritePost *.py call Flake8()
+
+" Define dictionaries
+" let g:neocomplete#sources#dictionary#dictionaries = {
+"     \ 'default' : '',
+"     \ 'vimshell' : $HOME.'/.vimshell_hist',
+"     \ 'scheme' : $HOME.'/.gosh_completions'
+"         \ }
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplete#close_popup() . "\<CR>"
+    " For no inserting <CR> key.
+    "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplete#close_popup()
+inoremap <expr><C-e>  neocomplete#cancel_popup()
 
 " vim-airline
 let g:airline#extensions#tabline#enabled = 1
@@ -171,7 +222,6 @@ inoremap <C-t>  <Esc>:tabnew<CR>i
 nnoremap <C-k>  :tabclose<CR>
 inoremap <C-k>  <Esc>:tabclose<CR>i
 
-let mapleader = ','
 nnoremap <Leader>p :set paste<CR>
 nnoremap <Leader>o :set nopaste<CR>
 noremap  <Leader>g :GitGutterToggle<CR>
@@ -249,6 +299,9 @@ else
     let g:syntastic_warning_symbol='.'
     let g:syntastic_style_warning_symbol='>'
 endif
+
+" Syntastic disable python
+let g:syntastic_mode_map = { 'passive_filetypes': ['python'] }
 
 " Syntastic JavaScript
 let g:syntastic_javascript_checkers = ['gjslint']
